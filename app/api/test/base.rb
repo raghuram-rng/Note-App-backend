@@ -22,7 +22,7 @@ module Test
     resources :sessions do
       desc "Login route" 
       post do
-        user = User.find_by(user_name: params["user"]["username"])
+        user = User.find_by(username: params["user"]["username"])
 
         if user && user.authenticate(params["user"]["password"])
           # User is authenticated and valid
@@ -49,10 +49,10 @@ module Test
       post do
         # p params
         user = User.create(
-          user_name: params['user']['username'],
+          username: params['user']['username'],
           password: params['user']['password'],
           password_confirmation: params['user']['password_confirmation'],
-          display_name: params['user']['name']
+          name: params['user']['name']
         )
         if user.valid?
           env['rack.session'][:user_id] = user.id

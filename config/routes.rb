@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get :logged_in, to: "sessions#logged_in"
   # # Defines the root path route ("/")
   # root "static#home"
-  get "/notes/search", to: "notes#search"
+  # get "/notes/search", to: "notes#search"
   resources :notes
   mount Test::Base => '/'
   # Defines the root path route ("/")
