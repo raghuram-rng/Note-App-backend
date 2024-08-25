@@ -22,9 +22,9 @@ module Test
     resources :sessions do
       desc "Login route" 
       post do
-        user = User.find_by(username: params["user"]["username"])
+        user = User.find_by(username: params["username"])
 
-        if user && user.authenticate(params["user"]["password"])
+        if user && user.authenticate(params["password"])
           # User is authenticated and valid
 
           env['rack.session'][:user_id] = user.id
@@ -49,10 +49,10 @@ module Test
       post do
         # p params
         user = User.create(
-          username: params['user']['username'],
-          password: params['user']['password'],
-          password_confirmation: params['user']['password_confirmation'],
-          name: params['user']['name']
+          username: params['username'],
+          password: params['password'],
+          password_confirmation: params['password_confirmation'],
+          name: params['name']
         )
         if user.valid?
           env['rack.session'][:user_id] = user.id
@@ -62,7 +62,7 @@ module Test
             user: user
           }
         else
-          error!({ status: 500, message: user.errors.full_messages }, 500)
+          error!({ status: 401, message: "User already exists" }, 401)
         end
       end
 
@@ -70,8 +70,8 @@ module Test
 
       desc 'Update current user details'
       params do
-        requires :username, type: String, desc: 'New username'
-        requires :password, type: String, desc: 'New password'
+        optional :username, type: String, desc: 'New username'
+        requires :password, type: String, desc: 'Current password'
         requires :name, type: String, desc: 'New display name'
         optional :new_password, type: String, desc: 'New password'
       end
@@ -79,7 +79,6 @@ module Test
       put do
         if BCrypt::Password.new(@current_user.password_digest) == params["password"]
           @current_user.update(
-            username: params[:username],
             name: params[:name]
           )
           if params["new_password"] && params["new_password"].length > 0
@@ -113,13 +112,12 @@ module Test
       post do
         note = Note.create(
           user_id: current_user.id ,
-          title:params['note']['title'] ,
-          content:params['note']['content'], 
+          title:params['title'] ,
+          content:params['content'], 
         )
         if note.valid?
           {
             status: :created,
-            credential: credential
           }
         else
           error!({ status: 500, message: credential.errors.full_messages }, 500)
