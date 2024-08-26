@@ -145,6 +145,19 @@ module Test
         end
       end
 
+      before { set_current_user }
+      desc 'Search notes'
+      params do
+        requires :query, type: String, desc: 'Search query'
+      end
+      get :search do
+        parameter = params[:query].downcase
+        note=Note.where(user_id: current_user.id).order(created_at: :desc)
+        # notes_title = note.where("lower(title) LIKE :search",search: "%#{parameter}%")
+        notes = note.where("lower(content) LIKE :search",search: "%#{parameter}%")
+        notes
+      end
+
       desc 'Delete a note'
       params do
         requires :id, desc: 'Note ID'
