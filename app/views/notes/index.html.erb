@@ -1,0 +1,8 @@
+<h1><%= "My Notes" if @current_user %></h1>
+
+<% if @current_user %>
+  <% @notes.each do |note|%>
+    <h5><%= link_to note.title, note %></h2>
+    <h6><%= note.content%></h1>
+  <%end%>
+<% end %>

@@ -1,0 +1,5 @@
+<h1>Edit Note</h1>
+
+<%= render partial: "form", locals: {note: @note}%>
+
+<%= button_to "Delete Note", @note, method: :delete, data: {turbo_confirm: "Are you sure?"}%>

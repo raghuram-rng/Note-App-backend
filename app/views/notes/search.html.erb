@@ -1,0 +1,18 @@
+<% if @current_user%>
+  <h3> Search Results </h3>
+<% else %>
+  <h3> Please Login  </h3>
+<%end%>
+<% @notes_title.each do |note|%>
+  <% if note.user == @current_user%>
+    <h5><%= link_to note.title, note %></h2>
+    <h6><%= note.content%></h1>
+  <%end%>
+<%end%>
+
+<% @notes_content.each do |note|%>
+  <% if note.user == @current_user && !@notes_title.include?(note)%>
+    <h5><%= link_to note.title, note %></h2>
+    <h6><%= note.content%></h1>
+  <%end%>
+<%end%>
