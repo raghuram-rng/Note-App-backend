@@ -6,10 +6,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "/notes/search", to: "notes#search"
   resources :notes
-  resources :sessions
-  # , only: [:create,:index]
-  resources :registrations
-  # , only: [:create,:index]
+  resources :sessions, except: [:index]
+  resources :registrations, only: [:new, :create, :edit, :update]
   post 'login', to: 'sessions#create'
   post 'signup', to: 'registrations#create'
 

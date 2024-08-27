@@ -5,14 +5,9 @@ class SessionsController < ApplicationController
 
      if user
        session[:user_id] = user.id
-      #  render json: {
-      #   status: :created,
-      #   logged_in: true,
-      #   user: user
-      #  }
       redirect_to notes_path
       else
-        render json:  { status: 401 }
+        render json: { status: 401 }, status: :unauthorized
      end
   end
   def logged_in
@@ -33,9 +28,6 @@ class SessionsController < ApplicationController
     # render json: {status: 200, logged_out: true}
   end
   def new
-    
-  end
-  def index
     
   end
 end
