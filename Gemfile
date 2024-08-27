@@ -71,3 +71,5 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 gem "rack-cors", :require => 'rack/cors'
 
 gem "grape", "~> 2.1"
+
+gem 'rails-controller-testing'

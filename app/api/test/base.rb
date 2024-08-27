@@ -153,8 +153,7 @@ module Test
       get :search do
         parameter = params[:query].downcase
         note=Note.where(user_id: current_user.id).order(created_at: :desc)
-        # notes_title = note.where("lower(title) LIKE :search",search: "%#{parameter}%")
-        notes = note.where("lower(content) LIKE :search",search: "%#{parameter}%")
+        notes = note.where('title ILIKE :search OR content ILIKE :search', search: "%#{parameter}%").order(created_at: :desc)
         notes
       end
 
